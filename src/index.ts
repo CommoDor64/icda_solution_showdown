@@ -88,7 +88,7 @@ async function main() {
 
 	return ({
 		date: (new Date()).toISOString(),
-		totalStorageSize: `${totalSize / 1_000_000_000}GB`,
+		dailyStorageSize: `${totalSize / 1_000_000_000}GB`,
 		timePeriodForStorage: timeSpan,
 		ingressMessageCount: messageCount,
 		totalCostInUSD: {
