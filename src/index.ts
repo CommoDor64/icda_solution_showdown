@@ -1,4 +1,3 @@
-
 import {
 	calculators,
 	Direction,
@@ -41,8 +40,37 @@ async function getDailyCostsEclipse() {
 
 
 }
+
+async function getCelestiaPrice() {
+	try {
+		const res = await fetch("https://api-mainnet.celenium.io/v1/stats/price/current", {
+			"credentials": "omit",
+			"headers": {
+				"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:137.0) Gecko/20100101 Firefox/137.0",
+				"Accept": "*/*",
+				"Accept-Language": "en-GB,en;q=0.5",
+				"Sec-Fetch-Dest": "empty",
+				"Sec-Fetch-Mode": "cors",
+				"Sec-Fetch-Site": "same-site",
+				"Priority": "u=4"
+			},
+			"referrer": "https://celenium.io/",
+			"method": "GET",
+			"mode": "cors"
+		});
+
+		const prices = await res.json();
+		return prices.high;
+	} catch (err) {
+		console.error(err)
+	}
+
+}
+
 async function main() {
 	const eclipseCosts = await getDailyCostsEclipse();
+	const celestiaPrice = await getCelestiaPrice();
+
 	const timeSpan = 30;
 	const totalSize = eclipseCosts.total_size;
 	const messageCount = eclipseCosts.pfb_count;
@@ -58,10 +86,18 @@ async function main() {
 		averageMessageSize as Bytes,
 	);
 
-	return {
-		ic: storage + ((execute + send) * messageCount * timeSpan),
-		celestia: 2.25 * pricePerPFB * messageCount / 1_000_000 * timeSpan,
-	}
+	return ({
+		date: (new Date()).toISOString(),
+		totalStorageSize: `${totalSize / 1_000_000_000}GB`,
+		timePeriodForStorage: timeSpan,
+		ingressMessageCount: messageCount,
+		results: {
+			ic: {
+				totalPrice: storage + ((execute + send) * messageCount * timeSpan)
+			},
+			celestia: celestiaPrice * pricePerPFB * messageCount / 1_000_000 * timeSpan,
+		}
+	})
 }
 
 main().then(res => console.log(res)).catch(err => console.error(err))
