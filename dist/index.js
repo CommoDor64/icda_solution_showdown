@@ -79,7 +79,7 @@ function main() {
         const execute = $.execution(Mode.Replicated, 1000000);
         const send = $.message(Mode.Replicated, Direction.UserToCanister, averageMessageSize);
         return ({
-            date: (new Date()).getDate(),
+            date: (new Date()).toISOString(),
             totalStorageSize: `${totalSize / 1000000000}GB`,
             timePeriodForStorage: timeSpan,
             ingressMessageCount: messageCount,
@@ -90,4 +90,4 @@ function main() {
         });
     });
 }
-main().then(res => console.log(res)).catch(err => console.error(err));
+main().then(res => console.log(JSON.stringify(res))).catch(err => console.error(err));
