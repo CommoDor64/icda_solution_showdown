@@ -29,7 +29,7 @@ jobs:
 
     - name: Write output to results.json
       run: |
-        node ./dist/index.js > results.json
+        node ./dist/index.js | jq > results.json
         
     - name: Set up Git
       run: |
