@@ -27,15 +27,9 @@ jobs:
     - name: Compile TypeScript
       run: npx tsc
 
-    - name: Run script and capture output
-      id: run-script
-      run: |
-        output=$(node ./dist/index.js)
-        echo "result=$output" >> $GITHUB_ENV
-
     - name: Write output to results.json
       run: |
-        echo "$result" > results.json
+        node ./dist/index.js > results.json
         
     - name: Set up Git
       run: |
