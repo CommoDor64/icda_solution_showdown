@@ -25,12 +25,12 @@ jobs:
       run: npm install -g typescript
 
     - name: Compile TypeScript
-      run: tsc index.ts
+      run: tsc ./src/index.ts
 
     - name: Run script and capture output
       id: run-script
       run: |
-        output=$(node index.js)
+        output=$(node ./dist/ndex.js)
         echo "result=$output" >> $GITHUB_ENV
 
     - name: Write output to results.json
