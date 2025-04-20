@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const icp_calculator_1 = require("@dfinity/icp-calculator");
+const $ = (0, icp_calculator_1.calculators)().calculatorUSD;
+const storage1mb = $.storage(1000000, icp_calculator_1.Duration.fromDays(365));
+const execute1b = $.execution(icp_calculator_1.Mode.Replicated, 1000000000);
+const send1mb = $.message(icp_calculator_1.Mode.Replicated, icp_calculator_1.Direction.UserToCanister, 1000000);
+console.log(storage1mb);
+console.log(execute1b);
+console.log(send1mb);
