@@ -1,1 +1,7 @@
-{ ic: 213.27202035421217, celestia: 2930.444865 }
+{
+  date: 20,
+  totalStorageSize: '2.279535033GB',
+  timePeriodForStorage: 30,
+  ingressMessageCount: 10185,
+  totalCostInUSD: { ic: 211.837903953618, celestia: 3190.4016089399997 }
+}

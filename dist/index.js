@@ -83,11 +83,9 @@ function main() {
             totalStorageSize: `${totalSize / 1000000000}GB`,
             timePeriodForStorage: timeSpan,
             ingressMessageCount: messageCount,
-            results: {
-                ic: {
-                    totalPrice: storage + ((execute + send) * messageCount * timeSpan)
-                },
-                celestia: celestiaPrice * pricePerPFB * messageCount / 1000000 * timeSpan,
+            totalCostInUSD: {
+                ic: storage + ((execute + send) * messageCount * timeSpan),
+                celestia: celestiaPrice * pricePerPFB * messageCount / 1000000 * timeSpan
             }
         });
     });
