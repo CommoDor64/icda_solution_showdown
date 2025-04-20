@@ -1,0 +1,46 @@
+name: Run Script and Update results.json
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs every day at midnight UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'  # Use the Node.js version you need
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Install TypeScript
+      run: npm install -g typescript
+
+    - name: Compile TypeScript
+      run: tsc index.ts
+
+    - name: Run script and capture output
+      id: run-script
+      run: |
+        output=$(node index.js)
+        echo "result=$output" >> $GITHUB_ENV
+
+    - name: Write output to results.json
+      run: |
+        echo "$result" > results.json
+
+    - name: Commit and push results.json
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add results.json
+        git commit -m "Update results.json"
+        git push
