@@ -39,9 +39,36 @@ function getDailyCostsEclipse() {
         }
     });
 }
+function getCelestiaPrice() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const res = yield fetch("https://api-mainnet.celenium.io/v1/stats/price/current", {
+                "credentials": "omit",
+                "headers": {
+                    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:137.0) Gecko/20100101 Firefox/137.0",
+                    "Accept": "*/*",
+                    "Accept-Language": "en-GB,en;q=0.5",
+                    "Sec-Fetch-Dest": "empty",
+                    "Sec-Fetch-Mode": "cors",
+                    "Sec-Fetch-Site": "same-site",
+                    "Priority": "u=4"
+                },
+                "referrer": "https://celenium.io/",
+                "method": "GET",
+                "mode": "cors"
+            });
+            const prices = yield res.json();
+            return prices.high;
+        }
+        catch (err) {
+            console.error(err);
+        }
+    });
+}
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const eclipseCosts = yield getDailyCostsEclipse();
+        const celestiaPrice = yield getCelestiaPrice();
         const timeSpan = 30;
         const totalSize = eclipseCosts.total_size;
         const messageCount = eclipseCosts.pfb_count;
@@ -51,10 +78,18 @@ function main() {
         const storage = $.storage(totalSize * timeSpan, Duration.fromDays(timeSpan));
         const execute = $.execution(Mode.Replicated, 1000000);
         const send = $.message(Mode.Replicated, Direction.UserToCanister, averageMessageSize);
-        return {
-            ic: storage + ((execute + send) * messageCount * timeSpan),
-            celestia: 2.25 * pricePerPFB * messageCount / 1000000 * timeSpan,
-        };
+        return ({
+            date: (new Date()).getDate(),
+            totalStorageSize: `${totalSize / 1000000000}GB`,
+            timePeriodForStorage: timeSpan,
+            ingressMessageCount: messageCount,
+            results: {
+                ic: {
+                    totalPrice: storage + ((execute + send) * messageCount * timeSpan)
+                },
+                celestia: celestiaPrice * pricePerPFB * messageCount / 1000000 * timeSpan,
+            }
+        });
     });
 }
 main().then(res => console.log(res)).catch(err => console.error(err));

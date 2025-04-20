@@ -87,15 +87,13 @@ async function main() {
 	);
 
 	return ({
-		date: (new Date()).toISOString(),
+		date: (new Date()).getDate(),
 		totalStorageSize: `${totalSize / 1_000_000_000}GB`,
 		timePeriodForStorage: timeSpan,
 		ingressMessageCount: messageCount,
-		results: {
-			ic: {
-				totalPrice: storage + ((execute + send) * messageCount * timeSpan)
-			},
-			celestia: celestiaPrice * pricePerPFB * messageCount / 1_000_000 * timeSpan,
+		totalCostInUSD: {
+			ic: storage + ((execute + send) * messageCount * timeSpan),
+			celestia: celestiaPrice * pricePerPFB * messageCount / 1_000_000 * timeSpan
 		}
 	})
 }
