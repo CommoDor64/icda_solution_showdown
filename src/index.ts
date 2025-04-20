@@ -87,7 +87,7 @@ async function main() {
 	);
 
 	return ({
-		date: (new Date()).getDate(),
+		date: (new Date()).toISOString(),
 		totalStorageSize: `${totalSize / 1_000_000_000}GB`,
 		timePeriodForStorage: timeSpan,
 		ingressMessageCount: messageCount,
@@ -98,4 +98,4 @@ async function main() {
 	})
 }
 
-main().then(res => console.log(res)).catch(err => console.error(err))
+main().then(res => console.log(JSON.stringify(res))).catch(err => console.error(err))
