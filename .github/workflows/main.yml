@@ -25,7 +25,7 @@ jobs:
       run: npm install -g typescript
 
     - name: Compile TypeScript
-      run: tsc ./src/index.ts
+      run: npx tsc
 
     - name: Run script and capture output
       id: run-script
