@@ -80,7 +80,7 @@ function main() {
         const send = $.message(Mode.Replicated, Direction.UserToCanister, averageMessageSize);
         return ({
             date: (new Date()).toISOString(),
-            totalStorageSize: `${totalSize / 1000000000}GB`,
+            dailyStorageSize: `${totalSize / 1000000000}GB`,
             timePeriodForStorage: timeSpan,
             ingressMessageCount: messageCount,
             totalCostInUSD: {
