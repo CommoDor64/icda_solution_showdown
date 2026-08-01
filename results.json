@@ -1,10 +1,10 @@
 {
-  "date": "2026-07-31T03:35:18.910Z",
-  "dailyStorageSize": "0.654544418GB",
+  "date": "2026-08-01T03:34:46.894Z",
+  "dailyStorageSize": "0.654878432GB",
   "timePeriodForStorage": 30,
-  "ingressMessageCount": 4083,
+  "ingressMessageCount": 4084,
   "totalCostInUSD": {
-    "ic": 61.15845164832338,
-    "celestia": 252.6511831500005
+    "ic": 61.18935080752332,
+    "celestia": 253.17270792000045
   }
 }
